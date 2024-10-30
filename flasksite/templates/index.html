@@ -1,81 +1,91 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-    </style>
+    <title>배추 가격 예측 대시보드</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <div class="flex">
-        #Sidebar
-        <div class="w-1/5 bg-white shadow-md h-screen p-4">
-            <h2 class="text-xl font-bold mb-4">농넷</h2>
-            <ul>
-                <li class="mb-2"><a href="#" class="text-blue-500">모델 설명</a></li>
-                <li class="mb-2"><a href="#" class="text-blue-500">사이트 정보</a></li>
-            </ul>
-            <p class="mt-8 text-sm">학습 데이터 2013.01~2024.09</p>
-            <p class="text-sm">단위 월별</p>
-            <p class="text-sm">변수 날씨</p>
+<body class="flex min-h-screen bg-gray-200">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-green-500 p-6 flex flex-col justify-between text-white shadow-lg">
+        <h2 class="text-3xl font-bold mb-6">배추 가격 예측</h2>
+        <div class="info mb-6">
+            <h3 class="text-lg font-semibold">모델 설명</h3>
+            <p class="text-gray-200">시계열 모델을 이용하여 배추 가격을 예측합니다.</p>
+            <h3 class="text-lg font-semibold mt-4">데이터 정보</h3>
+            <p class="text-gray-200">가격 데이터 출처: 농산물유통정보</p>
+            <h3 class="text-lg font-semibold mt-4">출처</h3>
+            <p class="text-gray-200">데이터 출처와 라이선스</p>
+        </div>
+        <div class="copyright text-center text-xs">
+            &copy; 2024 김신형. All rights reserved.
+        </div>
+    </aside>
+
+    <!-- Dashboard -->
+    <main class="flex-1 p-6">
+        <!-- Top Row -->
+        <div class="flex gap-6 mb-6">
+            <!-- Date Input and Forecast Box -->
+            <div class="flex-1 bg-white rounded-lg p-4 shadow-md flex flex-col justify-center">
+                <div class="flex items-center justify-around mb-4">
+                    <img src="/static/img/cabbage.png" alt="배추" class="w-24 h-auto">
+                    <div class="text-2xl font-bold text-green-600" id="forecastResult">예측 가격: ￦000</div>
+                </div>
+                <div class="mt-2">
+                    <select class="p-2 border border-green-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="cabbage">배추</option>
+                    </select>
+                    <input type="month" id="monthInput" class="p-2 border border-green-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="월 선택">
+                    <button class="btn-predict px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-300" onclick="predictPrice()">예측</button>
+                </div>
+            </div>
+
+            <!-- Price Trend Graph Box -->
+            <div class="flex-1 bg-white rounded-lg p-4 shadow-md h-100">
+                <h3 class="text-lg font-semibold text-green-600 mb-2">가격 동향 그래프</h3>
+                <iframe src="/static/forecast_graph.html" class="w-full h-60 rounded-md border-0 overflow-hidden"></iframe> <!-- 그래프 로드 -->
+            </div>
         </div>
 
-        #Main Content
-        <div class=" w-4/5 p-6">
-            <h1 class="text-2xl font-bold mb-6">대시보드 스타일의 사이트</h1>
-            <div class="flex flex-row gap-5  ">
-                <div class="basis-3/5 bg-white gap-5 mb-10 h-80">
-                    <div class="flex flex-row justify-center">
-                        <div class="basis-1/4 ml-10 p-4 ">
-                            <img src="/static/img/cabbage.png" alt="배추사진" class="bg-gray-100 object-cover">
-                        </div>
-                        <div class="basis-3/4 mr-20 p-4">
-                            <p class="font-bold mb-2">예측 가격</p>
-                            <h1>1000원/포기</h1>
-                        </div>
-                        <div class="bg-white p-4 ">
-                            <div class="flex items-center mb-2">
-                                <select class="border p-2 mr-2">
-                                    #<option>쌀</option>
-                                    <option>배추</option>
-                                </select>
-                                <input type="month" class="border p-2 mr-2">
-                                <button class="bg-blue-500 text-white px-4 py-2">예측</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="basis-2/5 mb-6 bg-white p-4 shadow-md h-80">
-                    <p class="mb-6 font-bold">가격 동향</p>
-                    <div class="h-48 bg-gray-200"></div>
-                </div>
+        <!-- Bottom Row -->
+        <div class="flex gap-6">
+            <!-- Prediction Graph Box -->
+            <div class="flex-1 bg-white rounded-lg p-4 shadow-md h-80">
+                <h3 class="text-lg font-semibold text-green-600 mb-2">예측 그래프</h3>
+                <iframe src="/static/forecast_graph.html" class="w-full h-full rounded-md border-0 overflow-hidden"></iframe> <!-- 그래프 로드 -->
             </div>
-            <div class="flex flex-row gap-5 mb-6">
-                <div class="basis-3/4  bg-white p-5 shadow-md">
-                    <p class="font-bold mb-2">그래프</p>
-                    <img src="https://source.unsplash.com/400x200/?graph" alt="Prophet 파이썬 그래프" class="w-full h-48 object-cover">
-                </div>
-                <div class="basis-1/4 bg-white p-5 shadow-md">
-                    <p class="font-bold mb-2">특성중요도</p>
-                    <div class="h-32 bg-gray-200"></div>
-                </div>
+
+            <!-- Feature Importance Graph Box -->
+            <div class="flex-1 bg-white rounded-lg p-4 shadow-md h-80">
+                <h3 class="text-lg font-semibold text-green-600 mb-2">특성 중요도 그래프</h3>
+                <iframe src="/static/forecast_graph.html" class="w-full h-full rounded-md border-0 overflow-hidden"></iframe> <!-- 그래프 로드 -->
             </div>
         </div>
-    </div>
-    <footer class="bg-white p-4 text-center mt-6 shadow-md">
-        <p>카피라이트 'SH KIM'</p>
-        <p>이메일: 22a606h0659@sonline20.sen.go.kr</p>
-        <p>made by 김신형</p>
-    </footer>
+    </main>
+
+    <script>
+        async function predictPrice() {
+            const resultElement = document.getElementById("forecastResult");
+            const month = document.getElementById("monthInput").value;
+            
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `month=${month}`,
+            });
+            
+            const data = await response.json();
+            resultElement.textContent = "예측 가격: ￦" + Math.floor(data.predicted_price);
+        }
+    </script>
+
 </body>
-</html> -->
+</html>
 
 
 
@@ -270,81 +280,3 @@
 
 
 
- <!DOCTYPE html>
- <html lang="ko">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>배추 가격 예측 대시보드</title>
-     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
- </head>
- <body class="flex min-h-screen bg-gray-200">
- 
-     <!-- Sidebar -->
-     <aside class="w-64 bg-green-500 p-6 flex flex-col justify-between text-white shadow-lg">
-         <h2 class="text-3xl font-bold mb-6">배추 가격 예측</h2>
-         <div class="info mb-6">
-             <h3 class="text-lg font-semibold">모델 설명</h3>
-             <p class="text-gray-200">시계열 모델을 이용하여 배추 가격을 예측합니다.</p>
-             <h3 class="text-lg font-semibold mt-4">데이터 정보</h3>
-             <p class="text-gray-200">가격 데이터 출처: 농산물유통정보</p>
-             <h3 class="text-lg font-semibold mt-4">출처</h3>
-             <p class="text-gray-200">데이터 출처와 라이선스</p>
-         </div>
-         <div class="copyright text-center text-xs">
-             &copy; 2024 김신형. All rights reserved.
-         </div>
-     </aside>
- 
-     <!-- Dashboard -->
-     <main class="flex-1 p-6">
-         <!-- Top Row -->
-         <div class="flex gap-6 mb-6">
-             <!-- Date Input and Forecast Box -->
-             <div class="flex-1 bg-white rounded-lg p-4 shadow-md flex flex-col justify-center">
-                 <div class="flex items-center justify-around mb-4">
-                     <img src="/static/img/cabbage.png" alt="배추" class="w-24 h-auto">
-                     <div class="text-2xl font-bold text-green-600" id="forecastResult">예측 가격: ￦000</div>
-                 </div>
-                 <div class="mt-2">
-                     <select class="p-2 border border-green-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                         <option value="cabbage">배추</option>
-                     </select>
-                     <input type="month" class="p-2 border border-green-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="월 선택">
-                     <button class="btn-predict px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-300" onclick="predictPrice()">예측</button>
-                 </div>
-             </div>
- 
-             <!-- Price Trend Graph Box -->
-             <div class="flex-1 bg-white rounded-lg p-4 shadow-md h-80">
-                 <h3 class="text-lg font-semibold text-green-600 mb-2">가격 동향 그래프</h3>
-                 <iframe src="/static/forecast_grapha.html" class="w-full rounded-md" style="height: 300px; width: 100%; border: none; overflow: hidden;"></iframe>
-             </div>
-         </div>
- 
-         <!-- Bottom Row -->
-         <div class="flex gap-6">
-             <!-- Prediction Graph Box -->
-             <div class="flex-1 bg-white rounded-lg p-4 shadow-md h-80">
-                 <h3 class="text-lg font-semibold text-green-600 mb-2">예측 그래프</h3>
-                 <iframe src="/static/forecast_graph.html" class="w-full rounded-md" style="height: 300px; width: 100%; border: none; overflow: hidden;"></iframe>
-             </div>
- 
-             <!-- Feature Importance Graph Box -->
-             <div class="flex-1 bg-white rounded-lg p-4 shadow-md h-80">
-                 <h3 class="text-lg font-semibold text-green-600 mb-2">특성 중요도 그래프</h3>
-                 <iframe src="/static/forecast_graph.html" class="w-full rounded-md" style="height: 300px; width: 100%; border: none; overflow: hidden;"></iframe>
-             </div>
-         </div>
-     </main>
- 
-     <script>
-         function predictPrice() {
-             const resultElement = document.getElementById("forecastResult");
-             resultElement.textContent = "예측 가격: ￦" + Math.floor(Math.random() * 10000 + 1000);
-         }
-     </script>
- 
- </body>
- </html>
- 
