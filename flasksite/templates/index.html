@@ -49,7 +49,7 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-success mb-3 p-4">가격 동향 그래프</h5>
-                        <canvas id="priceTrendChart"></canvas>
+                        {% include "graph.html" %}
                     </div>
                 </div>
             </div>
@@ -61,19 +61,22 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-success mb-3">예측 그래프</h5>
-                        <canvas id="forecastChart"></canvas>
+                        <div class="w-100" style="height: 300px;">
+                            {% include "forecast_graph.html" %}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <!-- <div class="col-md-6 mb-3">
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-success mb-3">특성 중요도 그래프</h5>
                         <canvas id="featureImportanceChart"></canvas>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
+        
     </main>
 
     <script>
