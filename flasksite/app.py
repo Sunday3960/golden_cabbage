@@ -7,7 +7,7 @@ app = Flask(__name__)
 # 데이터 로드 및 모델 학습
 df = pd.read_csv('/home/user/golden_cabbage/flasksite/static/full_month_price.csv')
 # df = pd.read_csv('/home/user/golden_cabbage/flasksite/static/fulldata.csv')
-df['ds'] = pd.to_datetime(df['ds'])
+# df['ds'] = pd.to_datetime(df['ds'])
 df['y'] = df['y'].astype(float)  # 가격 데이터 형식 확인
 
 holidays = pd.DataFrame({
@@ -19,7 +19,8 @@ holidays = pd.DataFrame({
     'upper_window': 30,
 })
 
-m = Prophet(holidays=holidays,yearly_seasonality=True,weekly_seasonality=True)
+m = Prophet(holidays=holidays,yearly_seasonality=True,weekly_seasonality=True,daily_seasonality=True)
+# m = Prophet(yearly_seasonality=True,weekly_seasonality=True,daily_seasonality=True)
 m.fit(df)
 
 @app.route('/')

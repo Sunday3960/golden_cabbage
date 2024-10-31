@@ -56,7 +56,7 @@
             <div class="col-md-6 mb-3">
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
-                        <h5 class="card-title text-success mb-3 p-4">가격 동향 그래프</h5>
+                        <h5 class="card-title text-success mb-3 p-4">가격 동향</h5>
                         {% include "graph.html" %}
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 
             const data = await response.json();
             if (response.ok) {
-                resultElement.textContent = "예측 가격(포기): ￦" +((Math.floor(data.predicted_price*1.01)))+"원";
+                resultElement.textContent = "예측 가격(포기): ￦" +((Math.floor(data.predicted_price*1.2)))+"원";
             } else if (response.status === 404) {
                 resultElement.textContent = "오류: 예측 결과가 없습니다.";
             } else {
