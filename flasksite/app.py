@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 # 데이터 로드 및 모델 학습
 df = pd.read_csv('/home/user/golden_cabbage/flasksite/static/full_month_price.csv')
+# df = pd.read_csv('/home/user/golden_cabbage/flasksite/static/fulldata.csv')
 df['ds'] = pd.to_datetime(df['ds'])
 df['y'] = df['y'].astype(float)  # 가격 데이터 형식 확인
 
@@ -13,12 +14,12 @@ holidays = pd.DataFrame({
     'holiday': '김장철',
     'ds': pd.to_datetime(['2013-11-25', '2014-11-25', '2015-11-25', '2016-11-25', '2017-11-25', 
                           '2018-11-25', '2019-11-25', '2020-11-25', '2021-11-25', 
-                          '2022-11-25', '2023-11-25']),
+                          '2022-11-25', '2023-11-25','2024-11-25']),
     'lower_window': 0,
     'upper_window': 30,
 })
 
-m = Prophet(daily_seasonality=True)
+m = Prophet(holidays=holidays,yearly_seasonality=True,weekly_seasonality=True)
 m.fit(df)
 
 @app.route('/')
@@ -71,4 +72,4 @@ def feature_importance_data():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5555)
+    app.run(debug=True, port=5551)

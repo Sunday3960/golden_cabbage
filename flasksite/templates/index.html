@@ -10,16 +10,23 @@
 <body class="d-flex min-vh-100 bg-light">
 
     <!-- Sidebar -->
-    <aside class="d-flex flex-column p-4 bg-success text-white shadow-lg" style="width: 250px;">
-        <h2 class="h3 fw-bold mb-4">배추 가격 예측</h2>
-        <div class="mb-4">
+    <aside class="d-flex flex-column p-4 text-white shadow-lg" style="background-color:#2F4F4F; width: 250px; font-size: small;">
+        <div class="d-flex align-items-center  w-100 ">
+            <img src="static/img/goldencabbage.png" style="height: 4rem;">
+            <h5 class="fw-bold">금배추 예측</h5>
+        </div>
+        <div class="mb-4 mt-auto">
             <h3 class="h6 fw-semibold">모델 설명</h3>
-            <p>시계열 모델을 이용하여 배추 가격을 예측합니다.</p>
+            <p>사용 모델: Prophet</p>
+            <p>방식: 시계열 예측 </p>
+            <p>목적: 배추 가격을 예측</p>
             <h3 class="h6 fw-semibold mt-3">데이터 정보</h3>
-            <p>날씨 데이터 출처: 기상청 자료공개포털</p>
-            <p>가격 데이터 출처: 농산물유통정보</p>
+            <p>학습 기간: 2013-01-01 ~ 2024-09-30</p>
+            <p>금액 단위: 월별/포기당</p>
+            
             <h3 class="h6 fw-semibold mt-3">출처</h3>
-            <p>데이터 출처와 라이선스</p>
+            <a href="https://data.kma.go.kr/cmmn/main.do" style="text-decoration: none;color: #FFFFFF;">날씨 데이터 출처: 기상청 기상자료개방포털</a><br>
+            <a href="https://www.kamis.or.kr/customer/price/agricultureRetail/period.do" style="text-decoration: none;color: #FFFFFF;">가격 데이터 출처: 농산물유통정보</a>
         </div>
         <div class="text-center small mt-auto">
             &copy; 2024 김신형. All rights reserved.
@@ -63,6 +70,11 @@
                     {% include "forecast_graph.html" %}
                 </div>
             </div>
+            <div class="col-md-5 mb-3">
+                <div class="card shadow-sm h-100">
+                    {% include "calcul.html" %}
+                </div>
+            </div>
         </div>
     </main>
     
@@ -84,7 +96,7 @@
 
             const data = await response.json();
             if (response.ok) {
-                resultElement.textContent = "예측 가격(포기): ￦" + Math.floor(data.predicted_price);
+                resultElement.textContent = "예측 가격(포기): ￦" +((Math.floor(data.predicted_price*1.01)))+"원";
             } else if (response.status === 404) {
                 resultElement.textContent = "오류: 예측 결과가 없습니다.";
             } else {
