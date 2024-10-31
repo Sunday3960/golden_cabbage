@@ -8,9 +8,14 @@ app = Flask(__name__)
 df = pd.read_csv('/home/user/golden_cabbage/flasksite/static/full_month.csv')
 #df.columns = ['ds', 'y']  # Prophet은 'ds'와 'y' 컬럼 이름을 사용합니다.
 df['ds'] = pd.to_datetime(df['ds'])  # 날짜 형식으로 변환
-
+holidays = pd.DataFrame({
+    'holiday': '김장철',
+    'ds': pd.to_datetime(['2013-11', '2014-11', '2015-11','2016-11', '2017-11', '2018-11', '2019-11','2020-11', '2021-11', '2022-11', '2023-11']),
+    'lower_window': 0,
+    'upper_window': 30,
+})
 # 모델 훈련
-m = Prophet(yearly_seasonality=True)
+m = Prophet(holidays=holidays,yearly_seasonality=True)
 m.fit(df)
 
 @app.route('/')
