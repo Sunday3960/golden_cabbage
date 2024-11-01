@@ -96,7 +96,7 @@
 
             const data = await response.json();
             if (response.ok) {
-                resultElement.textContent = "예측 가격(포기): ￦" +((Math.floor(data.predicted_price*1.2)))+"원";
+                resultElement.textContent = "예측 가격(포기): ￦" +((Math.floor(data.predicted_price*1.35)))+"원";
             } else if (response.status === 404) {
                 resultElement.textContent = "오류: 예측 결과가 없습니다.";
             } else {
